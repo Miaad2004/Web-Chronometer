@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>stopwatch</title>
+        <meta charset="utf8">
+        <link href="stylesheet.css" rel="stylesheet" type="text/css">
+    </head>
+
+    <body>
+        <h1>stopwatch</h1>
+        <p id="clock">00:00:00</p>
+        <button class="buttons" id="start-pause-btn" onclick="startStop()">Start</button>
+        <button class="buttons" id="reset-btn" onclick="resetTimer()">Reset</button>
+
+        <script>
+            let pause = true;
+            let interval;
+
+            function addToTimer () {
+                let value, newValue;
+                let hours, minutes, seconds;
+                value = document.getElementById("clock").innerHTML.split(":");
+                hours = parseInt(value[0]);
+                minutes = parseInt(value[1]);
+                seconds = parseInt(value[2]);
+
+                seconds += 1;
+
+                if (seconds >= 60) {
+                    seconds = 0;
+                    minutes += 1;
+                }
+
+                if (minutes >= 60) {
+                    minutes = 0;
+                    hours += 1;
+                }
+                showTime(hours, minutes, seconds, "clock");
+            }
+
+            function showTime(hours, minutes, seconds, elementID) {
+                let time;
+
+                if (hours < 10) {
+                    hours = "0" + hours.toString();
+                } else {
+                    hours = hours.toString();
+                }
+
+                if (minutes < 10) {
+                    minutes = "0" + minutes.toString();
+                } else {
+                    minutes = minutes.toString();
+                }
+
+                if (seconds < 10) {
+                    seconds = "0" + seconds.toString();
+                } else {
+                    seconds = seconds.toString();
+                }
+
+                time = hours + ":" + minutes + ":" + seconds;
+                document.getElementById(elementID).innerHTML = time;
+            }
+
+            function startStop() {
+                if (pause) {
+                    interval = setInterval(addToTimer, 1000);
+                    pause = false;
+                    document.getElementById("start-pause-btn").innerHTML = "Pause"
+
+                } else {
+                    clearInterval(interval);
+                    pause = true;
+                    document.getElementById("start-pause-btn").innerHTML = "Start"
+                }
+            }
+
+            function resetTimer() {
+                clearInterval(interval);
+                document.getElementById("clock").innerHTML = "00:00:00";
+                pause = true;
+                document.getElementById("start-pause-btn").innerHTML = "Start"
+            }
+
+        </script>
+    </body>
+
+
+</html>
